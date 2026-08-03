@@ -1,0 +1,18 @@
+# obsidian-project-memory / obsidian-project-update — configuration
+#
+# Copy this file to `project-memory-config.yaml` (same folder) and edit it, OR
+# let the skill ask you on first run and write it for you.
+# The real `project-memory-config.yaml` is gitignored — it holds a machine path.
+
+vault_root: "/absolute/path/to/your/Obsidian/Vault"
+
+# The folder that holds each project's memory folder. Your choice — any folder.
+# Examples:
+#   "Projects memory"
+#   "2. Source Material/Projects"
+#   "Areas/Projects"
+#   ""                        # the vault root itself
+projects_folder: "Projects memory"
+
+# Date style for progress and decision entries.
+date_format: "DD-MM-YYYY"     # or YYYY-MM-DD / DD-Mon-YYYY

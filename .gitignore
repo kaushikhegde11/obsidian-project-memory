@@ -1,0 +1,29 @@
+# Per-machine config (holds an absolute path). Ships as .example only.
+project-memory-config.yaml
+
+# Never commit vault content
+vault/
+*.vault/
+
+# Secrets / credentials
+.env
+.env.*
+*.key
+*.pem
+*.p12
+*.pfx
+id_rsa*
+*service-account*.json
+credentials.json
+
+# Logs
+*.log
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Dependencies (if tooling is added later)
+node_modules/
