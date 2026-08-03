@@ -80,6 +80,10 @@ The update skill refreshes `STATUS.md`, prepends a dated `progress.md` entry, ap
 
 These skills run entirely on your machine, only under the folder you configure, with no network calls. See [`SECURITY.md`](SECURITY.md). A `scripts/check-secrets.sh` guard helps contributors avoid committing personal paths, emails, or keys.
 
+## Related
+
+- [obsidian-notes-skill](https://github.com/kaushikhegde11/obsidian-notes-skill) — files and formats notes into your Obsidian vault (Zettelkasten / PARA / flat / custom) with a first-run setup wizard.
+
 ## License
 
 [MIT](LICENSE).
