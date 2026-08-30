@@ -1,30 +1,42 @@
----
-name: obsidian-project-memory
-description: Create and maintain per-project "memory" notes in the user's Obsidian vault. Each project gets its own folder with four files — README.md (stable overview), STATUS.md (current snapshot), progress.md (dated diary), Decision.md (decisions + rationale). The storage folder is configurable — no fixed vault structure. Use whenever the user says "project memory", "store memory about my project", "set up project notes", "track this project in Obsidian", "make a README/STATUS for <project>", or pastes project context to file. Companion skill: obsidian-project-update updates these files later. One project per folder — never mix two projects in one file.
+# /project-memory
+
+You were invoked as the `/project-memory` command. The user wants to create project memory in their Obsidian vault.
+Follow the instructions below for this turn. Anything the user typed after the
+command is the project context — read it before you start asking questions.
+
 ---
 
-# Obsidian Project Memory
+# Project Memory
 
 Store durable, structured memory about a single project in the Obsidian vault. An AI assistant (or the user) reads these files later to recover full context fast.
 
-This skill **creates** a project's memory. Its companion, `obsidian-project-update`, **updates** it.
+This skill **creates** a project's memory. Its companion, `update-project-memory`, **updates** it.
 
-## Prerequisite: Obsidian access
-This skill assumes Claude **already has read, create, and edit access** to your Obsidian vault — through the Obsidian MCP server or direct filesystem access. This skill does not set up that access. If Claude cannot read or write the vault, stop and ask the user to grant access first.
+Tool-neutral: it works in any coding agent that can read and write files — Claude Code (as a skill), OpenAI Codex (as a `/project-memory` prompt), or any other assistant with vault access. Below, "you" means whichever assistant is running these instructions.
+
+## Prerequisite: vault access
+This skill assumes you **already have read, create, and edit access** to the user's Obsidian vault — through the Obsidian MCP server, plain filesystem tools, or your own sandbox mount. This skill does not set up that access. If you cannot read or write the vault, stop and ask the user to grant access first. In a sandboxed agent (Codex's default is workspace-write on the current directory only), the vault path usually sits outside the sandbox: ask the user to add it as a writable root, or fall back to printing each file as a fenced code block for the user to paste.
 
 ## Configuration (no fixed folders)
-This skill hardcodes no vault structure. It reads `project-memory-config.yaml` from this skill's own folder:
+This skill hardcodes no vault structure. It reads `project-memory-config.yaml`. Resolve the config path in this order and use the first that exists:
+
+1. `$PROJECT_MEMORY_CONFIG` — explicit override.
+2. `~/.config/project-memory/config.yaml` — canonical, tool-neutral location.
+3. `~/.claude/skills/project-memory/project-memory-config.yaml` — Claude Code install.
+4. `~/.codex/project-memory-config.yaml` — Codex install.
+
+Fields:
 - `vault_root` — absolute path to the vault.
 - `projects_folder` — the folder that holds each project's memory folder. Any folder the user chooses (for example `Projects memory`, `2. Source Material/Projects`, `Areas/Projects`, or `""` for the vault root).
 - `date_format` — date style for the logs.
 
-If the file is missing or incomplete, run a short setup:
+If no config file is found or it is incomplete, run a short setup:
 1. Ask for the vault root. You may reuse `~/.claude/skills/obsidian-notes-skill/vault-config.yaml` `vault_root` if it exists.
 2. Ask which folder should hold project memory. The user may pick or type **any** folder.
 3. Ask the date format (default `DD-MM-YYYY`).
-4. Save `project-memory-config.yaml`.
+4. Save the answers to `~/.config/project-memory/config.yaml`, creating the folder if needed.
 
-`project-memory-config.example.yaml` documents every field.
+`project-memory-config.example.yaml` in the repo documents every field.
 
 ## Location and rule
 - Base path: `<vault_root>/<projects_folder>/<Project Name>/`.
@@ -101,7 +113,7 @@ _Last updated: <DATE>_
 
 ## Create
 - Folder does not exist → create it and write all four files from the context.
-- Folder already exists → this is an update. Use the `obsidian-project-update` skill instead.
+- Folder already exists → this is an update. Use the `update-project-memory` skill instead.
 
 ## Sorting content into the right file
 - Stable facts (what/why/who/links/AI guidance) → `README.md`.
@@ -113,7 +125,7 @@ _Last updated: <DATE>_
 Create an extra file or subfolder only when the project clearly needs it — for example `architecture.md`, `links.md`, or a `research/` subfolder. Do not add structure the project does not need. The four core files are the default.
 
 ## Rules
-- Assumes Obsidian read/create/edit access (see Prerequisite).
+- Assumes vault read/create/edit access (see Prerequisite).
 - One project per folder. Never mix projects.
 - Date every `progress.md` and `Decision.md` entry in the configured format.
 - When context is missing, ask. Do not fabricate status, decisions, or history.

@@ -1,18 +1,22 @@
 # Security
 
-## What these skills can do
+## What these instructions can do
 
-`obsidian-project-memory` and `obsidian-project-update` are sets of instructions for Claude Code. They have no runtime of their own. When Claude follows them, Claude:
+`project-memory` and `update-project-memory` are sets of instructions for an AI coding agent — a skill in Claude Code, a custom prompt in Codex. They have no runtime of their own. When an assistant follows them, it:
 
-- reads and writes Markdown files **only** under the folder you configure in `project-memory-config.yaml`;
+- reads and writes Markdown files **only** under the folder you configure in your `project-memory` config;
 - creates the project folders and the four memory files inside it;
 - makes **no network calls** and sends **no data** anywhere.
 
 They require no credentials and store none.
 
+The two shell scripts in `scripts/` are the only executable code here. `install.sh` writes symlinks or copies into `~/.claude/skills/` and `~/.codex/prompts/` and asks before replacing anything. `build-codex-prompts.sh` writes only inside `codex/prompts/`. Neither touches the network.
+
 ## Prerequisite
 
-These skills assume Claude already has read, create, and edit access to your Obsidian vault — through the Obsidian MCP server or direct filesystem access. The skills do not grant that access. You set it up, and your own tool-approval prompts still apply per file action.
+These instructions assume the assistant already has read, create, and edit access to your Obsidian vault — through the Obsidian MCP server, filesystem tools, or a sandbox mount. They do not grant that access. You set it up, and your own tool-approval prompts still apply per file action.
+
+Codex runs sandboxed (`workspace-write` by default). Granting the vault as a writable root widens that sandbox for the whole session, not just for these prompts — grant the vault path, not your home directory.
 
 ## What you should not commit
 

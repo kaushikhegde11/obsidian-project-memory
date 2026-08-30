@@ -1,5 +1,6 @@
 # Per-machine config (holds an absolute path). Ships as .example only.
 project-memory-config.yaml
+!project-memory-config.example.yaml
 
 # Never commit vault content
 vault/
