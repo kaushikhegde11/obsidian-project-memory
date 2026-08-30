@@ -1,8 +1,16 @@
-# obsidian-project-memory / obsidian-project-update — configuration
+# project-memory / update-project-memory — configuration
 #
-# Copy this file to `project-memory-config.yaml` (same folder) and edit it, OR
-# let the skill ask you on first run and write it for you.
-# The real `project-memory-config.yaml` is gitignored — it holds a machine path.
+# Copy this file to one of the locations below and edit it, OR let the skill ask
+# you on first run and write it for you. The skill looks in this order and uses
+# the first file it finds:
+#
+#   1. $PROJECT_MEMORY_CONFIG                                  (explicit override)
+#   2. ~/.config/project-memory/config.yaml                    (canonical)
+#   3. ~/.claude/skills/project-memory/project-memory-config.yaml   (Claude Code)
+#   4. ~/.codex/project-memory-config.yaml                     (Codex)
+#
+# Prefer the canonical location — one config serves every agent. Real config
+# files are gitignored; they hold a machine path.
 
 vault_root: "/absolute/path/to/your/Obsidian/Vault"
 
